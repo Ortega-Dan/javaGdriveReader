@@ -62,18 +62,29 @@ public class DriveQuickstart {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         Drive service = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
                 .setApplicationName(APPLICATION_NAME).build();
+        String pageToken = null;
+        do {
 
-        // Print the names and IDs for up to 10 files.
-        FileList result = service.files().list().setPageSize(10).setFields("nextPageToken, files(id, name,shared)")
-                .execute();
-        List<File> files = result.getFiles();
-        if (files == null || files.isEmpty()) {
-            System.out.println("No files found.");
-        } else {
-            System.out.println("Files:");
-            for (File file : files) {
-                System.out.printf("%s (%s) %s\n", file.getName(), file.getId(), file.getShared());
+            System.out.println("                              ");
+
+            // Print the names and IDs for up to 10 files.
+            FileList result = service.files().list().setPageSize(1000)
+                    .setFields("nextPageToken, files(id, name,shared)").setPageToken(pageToken).execute();
+            List<File> files = result.getFiles();
+
+            if (files == null || files.isEmpty()) {
+                System.out.println("No files found.");
+            } else {
+                System.out.println("Files:");
+                for (File file : files) {
+                    if (file.getShared()) {
+                        System.out.printf("%s (%s) %s\n", file.getName(), file.getId(), file.getShared());
+                    }
+                }
             }
-        }
+
+            pageToken = result.getNextPageToken();
+
+        } while (pageToken != null);
     }
 }
