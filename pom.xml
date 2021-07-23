@@ -4,7 +4,7 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <groupId>org.danort</groupId>
   <artifactId>gdrivereader</artifactId>
   <version>0.0.0</version>
-  
+
   <build>
     <sourceDirectory>src</sourceDirectory>
     <plugins>
@@ -32,7 +32,7 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
             <manifest>
               <addClasspath>true</addClasspath>
               <classpathPrefix>lib/</classpathPrefix>
-              <mainClass>App</mainClass>
+              <mainClass>DriveQuickstart</mainClass>
             </manifest>
           </archive>
         </configuration>
@@ -47,7 +47,7 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
         <configuration>
           <archive>
             <manifest>
-              <mainClass>App</mainClass>
+              <mainClass>DriveQuickstart</mainClass>
             </manifest>
           </archive>
           <descriptorRefs>
@@ -58,6 +58,21 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
     </plugins>
   </build>
   <dependencies>
-    
+    <dependency>
+      <groupId>com.google.api-client</groupId>
+      <artifactId>google-api-client</artifactId>
+      <version>1.23.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.oauth-client</groupId>
+      <artifactId>google-oauth-client-jetty</artifactId>
+      <version>1.23.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.apis</groupId>
+      <artifactId>google-api-services-drive</artifactId>
+      <!-- <version>v3-rev20210707-1.32.1</version> -->
+      <version>v3-rev110-1.23.0</version>
+    </dependency>
   </dependencies>
 </project>
