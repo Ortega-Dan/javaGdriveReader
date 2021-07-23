@@ -21,7 +21,7 @@ import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
 
-public class DriveQuickstart {
+public class GDriveChecker {
     private static final String APPLICATION_NAME = "Google Drive API Java Quickstart";
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
@@ -42,7 +42,7 @@ public class DriveQuickstart {
      */
     private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
         // Load client secrets.
-        InputStream in = DriveQuickstart.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
+        InputStream in = GDriveChecker.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
         if (in == null) {
             throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
         }
@@ -68,8 +68,10 @@ public class DriveQuickstart {
             System.out.println("                              ");
 
             // Print the names and IDs for up to 10 files.
-            FileList result = service.files().list().setPageSize(1000)
-                    .setFields("nextPageToken, files(id, name,shared)").setPageToken(pageToken).execute();
+            // .setQ("mimeType = 'application/vnd.google-apps.folder'")
+            FileList result = service.files().list().setSpaces("drive").setPageSize(1000)
+                    .setFields("nextPageToken, files(id, name,shared,mimeType,ownedByMe,trashed)")
+                    .setPageToken(pageToken).execute();
             List<File> files = result.getFiles();
 
             if (files == null || files.isEmpty()) {
@@ -77,8 +79,17 @@ public class DriveQuickstart {
             } else {
                 System.out.println("Files:");
                 for (File file : files) {
-                    if (file.getShared()) {
-                        System.out.printf("%s (%s) %s\n", file.getName(), file.getId(), file.getShared());
+
+                    if (file.getOwnedByMe() && file.getShared()) {
+
+                        System.out.print(file.getMimeType().equals("application/vnd.google-apps.folder") ? ""
+                                : "\t" + file.getMimeType() + " ");
+                        System.out.print(file.getName() + " ");
+                        // System.out.print(file.getId() + " ");
+                        // System.out.print(file.getShared() + " ");
+
+                        System.out.println();
+
                     }
                 }
             }

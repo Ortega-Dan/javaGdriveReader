@@ -32,7 +32,7 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
             <manifest>
               <addClasspath>true</addClasspath>
               <classpathPrefix>lib/</classpathPrefix>
-              <mainClass>DriveQuickstart</mainClass>
+              <mainClass>GDriveChecker</mainClass>
             </manifest>
           </archive>
         </configuration>
@@ -47,7 +47,7 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
         <configuration>
           <archive>
             <manifest>
-              <mainClass>DriveQuickstart</mainClass>
+              <mainClass>GDriveChecker</mainClass>
             </manifest>
           </archive>
           <descriptorRefs>
