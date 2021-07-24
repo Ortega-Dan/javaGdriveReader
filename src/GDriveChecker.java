@@ -12,7 +12,7 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
-import com.google.api.services.drive.model.Permission;
+// import com.google.api.services.drive.model.Permission;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -65,8 +65,8 @@ public class GDriveChecker {
                 .setApplicationName(APPLICATION_NAME).build();
         String pageToken = null;
         do {
-
-            System.out.println("                              ");
+            // uncomment this to see progress per each 1000 files
+            // System.out.println(".");
 
             // Print the names and IDs for up to 10 files.
             // .setQ("mimeType = 'application/vnd.google-apps.folder'")
@@ -78,7 +78,6 @@ public class GDriveChecker {
             if (files == null || files.isEmpty()) {
                 System.out.println("No files found.");
             } else {
-                System.out.println("Files:");
                 for (File file : files) {
 
                     if (
@@ -86,7 +85,7 @@ public class GDriveChecker {
                     // UNCOMMENT THIS TO AUDIT ONLY DIRECTORIES FIRST
                     // file.getMimeType().equals("application/vnd.google-apps.folder") &&
                     //
-                            file.getOwnedByMe() && file.getShared() && !file.getTrashed()) {
+                    file.getOwnedByMe() && file.getShared() && !file.getTrashed()) {
 
                         System.out.print(
                                 file.getMimeType().equals("application/vnd.google-apps.folder") ? "DIR: " : "FILE: ");
