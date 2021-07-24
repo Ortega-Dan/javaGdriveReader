@@ -66,7 +66,7 @@ public class GDriveChecker {
         String pageToken = null;
         do {
             // uncomment this to see progress per each 1000 files
-            // System.out.println(".");
+            System.out.println(".");
 
             // Print the names and IDs for up to 10 files.
             // .setQ("mimeType = 'application/vnd.google-apps.folder'")
