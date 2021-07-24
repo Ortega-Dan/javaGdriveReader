@@ -89,15 +89,15 @@ public class GDriveChecker {
                         System.out.println(file.getName() + " ");
                         // System.out.print(file.getId() + " ");
 
-                        for (Permission perm : file.getPermissions()) {
-                            if (!perm.getRole().equals("owner")) {
+                        // for (Permission perm : file.getPermissions()) {
+                        //     if (!perm.getRole().equals("owner")) {
 
-                                System.out.println(perm.getRole() + " " + perm.getId());
+                        //         System.out.println(perm.getRole() + " " + perm.getId());
 
-                                service.permissions().delete(file.getId(), perm.getId()).execute();
-                            }
+                        //         service.permissions().delete(file.getId(), perm.getId()).execute();
+                        //     }
 
-                        }
+                        // }
 
                         System.out.println();
 
