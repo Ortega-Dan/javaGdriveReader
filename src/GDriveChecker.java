@@ -89,7 +89,7 @@ public class GDriveChecker {
 
                         System.out.print(
                                 file.getMimeType().equals("application/vnd.google-apps.folder") ? "DIR: " : "FILE: ");
-                        System.out.println(file.getName() + " ");
+                        System.out.println(file.getName());
                         // System.out.print(file.getId() + " ");
 
                         // for (Permission perm : file.getPermissions()) {
@@ -102,7 +102,7 @@ public class GDriveChecker {
 
                         // }
 
-                        System.out.println();
+                        // System.out.println();
 
                     }
                 }
