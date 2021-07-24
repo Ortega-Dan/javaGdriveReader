@@ -81,21 +81,25 @@ public class GDriveChecker {
                 System.out.println("Files:");
                 for (File file : files) {
 
-                    if (file.getOwnedByMe() && file.getShared()
-                            && file.getMimeType().equals("application/vnd.google-apps.folder") && !file.getTrashed()) {
+                    if (
+                    //
+                    // UNCOMMENT THIS TO AUDIT ONLY DIRECTORIES FIRST
+                    // file.getMimeType().equals("application/vnd.google-apps.folder") &&
+                    //
+                            file.getOwnedByMe() && file.getShared() && !file.getTrashed()) {
 
-                        System.out.print(file.getMimeType().equals("application/vnd.google-apps.folder") ? ""
-                                : "\t" + file.getMimeType() + " ");
+                        System.out.print(
+                                file.getMimeType().equals("application/vnd.google-apps.folder") ? "DIR: " : "FILE: ");
                         System.out.println(file.getName() + " ");
                         // System.out.print(file.getId() + " ");
 
                         // for (Permission perm : file.getPermissions()) {
-                        //     if (!perm.getRole().equals("owner")) {
+                        // if (!perm.getRole().equals("owner")) {
 
-                        //         System.out.println(perm.getRole() + " " + perm.getId());
+                        // System.out.println(perm.getRole() + " " + perm.getId());
 
-                        //         service.permissions().delete(file.getId(), perm.getId()).execute();
-                        //     }
+                        // service.permissions().delete(file.getId(), perm.getId()).execute();
+                        // }
 
                         // }
 
