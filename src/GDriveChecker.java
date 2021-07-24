@@ -12,6 +12,7 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
+import com.google.api.services.drive.model.Permission;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -70,7 +71,7 @@ public class GDriveChecker {
             // Print the names and IDs for up to 10 files.
             // .setQ("mimeType = 'application/vnd.google-apps.folder'")
             FileList result = service.files().list().setSpaces("drive").setPageSize(1000)
-                    .setFields("nextPageToken, files(id, name,shared,mimeType,ownedByMe,trashed)")
+                    .setFields("nextPageToken, files(id, name,shared,mimeType,ownedByMe,trashed,permissions)")
                     .setPageToken(pageToken).execute();
             List<File> files = result.getFiles();
 
@@ -80,13 +81,23 @@ public class GDriveChecker {
                 System.out.println("Files:");
                 for (File file : files) {
 
-                    if (file.getOwnedByMe() && file.getShared()) {
+                    if (file.getOwnedByMe() && file.getShared()
+                            && file.getMimeType().equals("application/vnd.google-apps.folder") && !file.getTrashed()) {
 
                         System.out.print(file.getMimeType().equals("application/vnd.google-apps.folder") ? ""
                                 : "\t" + file.getMimeType() + " ");
-                        System.out.print(file.getName() + " ");
+                        System.out.println(file.getName() + " ");
                         // System.out.print(file.getId() + " ");
-                        // System.out.print(file.getShared() + " ");
+
+                        for (Permission perm : file.getPermissions()) {
+                            if (!perm.getRole().equals("owner")) {
+
+                                System.out.println(perm.getRole() + " " + perm.getId());
+
+                                service.permissions().delete(file.getId(), perm.getId()).execute();
+                            }
+
+                        }
 
                         System.out.println();
 
