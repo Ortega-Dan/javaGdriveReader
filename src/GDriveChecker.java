@@ -68,8 +68,7 @@ public class GDriveChecker {
             // uncomment this to see progress per each 1000 files
             System.out.println(".");
 
-            // Print the names and IDs for up to 10 files.
-            // .setQ("mimeType = 'application/vnd.google-apps.folder'")
+            // Print the names and IDs for up to 1000 files.
             FileList result = service.files().list().setSpaces("drive").setPageSize(1000)
                     .setFields("nextPageToken, files(id, name,shared,mimeType,ownedByMe,trashed,permissions)")
                     .setPageToken(pageToken).execute();
