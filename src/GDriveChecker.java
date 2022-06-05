@@ -52,8 +52,8 @@ public class GDriveChecker {
         // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY,
                 clientSecrets, SCOPES)
-                        .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
-                        .setAccessType("offline").build();
+                .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
+                .setAccessType("offline").build();
         LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
@@ -70,7 +70,8 @@ public class GDriveChecker {
 
             // Print the names and IDs for up to 1000 files.
             FileList result = service.files().list().setSpaces("drive").setPageSize(1000)
-                    .setFields("nextPageToken, files(id, name,shared,mimeType,ownedByMe,trashed,permissions)")
+                    .setFields(
+                            "nextPageToken, files(id,name,shared,mimeType,ownedByMe,trashed,permissions,parents,webViewLink)")
                     .setPageToken(pageToken).execute();
             List<File> files = result.getFiles();
 
@@ -81,14 +82,25 @@ public class GDriveChecker {
 
                     if (
                     //
-                    // UNCOMMENT THIS TO AUDIT ONLY DIRECTORIES FIRST
+                    // UNCOMMENT THIS TO AUDIT ONLY DIRECTORIES
                     // file.getMimeType().equals("application/vnd.google-apps.folder") &&
                     //
                     file.getOwnedByMe() && file.getShared() && !file.getTrashed()) {
 
                         System.out.print(
                                 file.getMimeType().equals("application/vnd.google-apps.folder") ? "DIR: " : "FILE: ");
-                        System.out.println(file.getName());
+                        System.out.print(file.getName());
+
+                        StringBuilder parentSB = new StringBuilder();
+
+                        // getting parent dirs
+                        // for (String parentID : file.getParents()) {
+                        // File parent = service.files().get(parentID).execute();
+                        // parentSB.insert(0, parent.getName());
+                        // }
+
+                        System.out.println(" : " + file.getWebViewLink());
+
                         // System.out.print(file.getId() + " ");
 
                         // for (Permission perm : file.getPermissions()) {
